@@ -1,11 +1,11 @@
 <?php
 
-namespace Themsaid\Langman\Commands;
+namespace Keeratita\Langman\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Themsaid\Langman\Manager;
+use Keeratita\Langman\Manager;
 
 class RenameCommand extends Command
 {
@@ -26,7 +26,7 @@ class RenameCommand extends Command
     /**
      * The Languages manager instance.
      *
-     * @var \Themsaid\LangMan\Manager
+     * @var \Keeratita\Langman\Manager
      */
     private $manager;
 
@@ -40,7 +40,7 @@ class RenameCommand extends Command
     /**
      * ListCommand constructor.
      *
-     * @param \Themsaid\LangMan\Manager $manager
+     * @param \Keeratita\Langman\Manager $manager
      * @return void
      */
     public function __construct(Manager $manager)
@@ -61,7 +61,7 @@ class RenameCommand extends Command
 
         $this->listFilesContainingOldKey();
 
-        $this->info('The key at '.$this->argument('oldKey').' was renamed to '.$this->argument('newKey').' successfully!');
+        $this->info('The key at ' . $this->argument('oldKey') . ' was renamed to ' . $this->argument('newKey') . ' successfully!');
     }
 
     /**
@@ -113,7 +113,7 @@ class RenameCommand extends Command
     private function listFilesContainingOldKey()
     {
         if ($files = $this->getFilesContainingOldKey()) {
-            $this->info('Renamed key was found in '.count($files).' file(s).');
+            $this->info('Renamed key was found in ' . count($files) . ' file(s).');
 
             $this->table(['Encounters', 'File'], $this->getTableRows($files));
         }

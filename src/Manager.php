@@ -1,6 +1,6 @@
 <?php
 
-namespace Themsaid\Langman;
+namespace Keeratita\Langman;
 
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\Filesystem;
@@ -58,7 +58,7 @@ class Manager
         });
 
         $filesByFile = $files->groupBy(function ($file) {
-            $fileName = $file->getBasename('.'.$file->getExtension());
+            $fileName = $file->getBasename('.' . $file->getExtension());
 
             if (Str::contains($file->getPath(), 'vendor')) {
                 $fileName = str_replace('.php', '', $file->getFileName());
@@ -80,7 +80,7 @@ class Manager
         // If the path does not contain "vendor" then we're looking at the
         // main language files of the application, in this case we will
         // neglect all vendor files.
-        if (! Str::contains($this->path, 'vendor')) {
+        if (!Str::contains($this->path, 'vendor')) {
             $filesByFile = $this->neglectVendorFiles($filesByFile);
         }
 
@@ -98,7 +98,7 @@ class Manager
         $return = [];
 
         foreach ($filesByFile->toArray() as $key => $value) {
-            if (! Str::contains($key, ':')) {
+            if (!Str::contains($key, ':')) {
                 $return[$key] = $value;
             }
         }
@@ -137,8 +137,8 @@ class Manager
     public function createFile($fileName)
     {
         foreach ($this->languages() as $languageKey) {
-            $file = $this->path."/{$languageKey}/{$fileName}.php";
-            if (! $this->disk->exists($file)) {
+            $file = $this->path . "/{$languageKey}/{$fileName}.php";
+            if (!$this->disk->exists($file)) {
                 file_put_contents($file, "<?php \n\n return[];");
             }
         }
@@ -159,7 +159,7 @@ class Manager
 
         foreach ($keys as $key => $values) {
             foreach ($values as $languageKey => $value) {
-                $filePath = $this->path."/{$languageKey}/{$fileName}.php";
+                $filePath = $this->path . "/{$languageKey}/{$fileName}.php";
 
                 Arr::set($appends[$filePath], $key, $value);
             }
@@ -184,7 +184,7 @@ class Manager
     public function removeKey($fileName, $key)
     {
         foreach ($this->languages() as $language) {
-            $filePath = $this->path."/{$language}/{$fileName}.php";
+            $filePath = $this->path . "/{$language}/{$fileName}.php";
 
             $fileContent = $this->getFileContent($filePath);
 
@@ -224,7 +224,7 @@ class Manager
 
         foreach ($array as $key => $value) {
             if (is_array($value)) {
-                $value = $this->stringLineMaker($value, $prepend.'    ');
+                $value = $this->stringLineMaker($value, $prepend . '    ');
 
                 $output .= "\n{$prepend}    '{$key}' => [{$value}\n{$prepend}    ],";
             } else {
@@ -247,8 +247,8 @@ class Manager
      */
     public function getFileContent($filePath, $createIfNotExists = false)
     {
-        if ($createIfNotExists && ! $this->disk->exists($filePath)) {
-            if (! $this->disk->exists($directory = dirname($filePath))) {
+        if ($createIfNotExists && !$this->disk->exists($filePath)) {
+            if (!$this->disk->exists($directory = dirname($filePath))) {
                 mkdir($directory, 0777, true);
             }
 
@@ -260,7 +260,7 @@ class Manager
         try {
             return (array) include $filePath;
         } catch (\ErrorException $e) {
-            throw new FileNotFoundException('File not found: '.$filePath);
+            throw new FileNotFoundException('File not found: ' . $filePath);
         }
     }
 
@@ -312,16 +312,16 @@ class Manager
 
         $pattern =
             // See https://regex101.com/r/jS5fX0/4
-            '[^\w]'. // Must not start with any alphanum or _
-            '(?<!->)'. // Must not start with ->
-            '('.implode('|', $functions).')'.// Must start with one of the functions
-            "\(".// Match opening parentheses
-            "[\'\"]".// Match " or '
-            '('.// Start a new group to match:
-            '[a-zA-Z0-9_-]+'.// Must start with group
-            "([.][^\1)$]+)+".// Be followed by one or more items/keys
-            ')'.// Close group
-            "[\'\"]".// Closing quote
+            '[^\w]' . // Must not start with any alphanum or _
+            '(?<!->)' . // Must not start with ->
+            '(' . implode('|', $functions) . ')' . // Must start with one of the functions
+            "\(" . // Match opening parentheses
+            "[\'\"]" . // Match " or '
+            '(' . // Start a new group to match:
+            '[a-zA-Z0-9_-]+' . // Must start with group
+            "([.][^\1)$]+)+" . // Be followed by one or more items/keys
+            ')' . // Close group
+            "[\'\"]" . // Closing quote
             "[\),]"  // Close parentheses or new parameter
         ;
 
@@ -345,7 +345,7 @@ class Manager
      */
     public function setPathToVendorPackage($packageName)
     {
-        $this->path = $this->path.'/vendor/'.$packageName;
+        $this->path = $this->path . '/vendor/' . $packageName;
     }
 
     /**
@@ -378,7 +378,7 @@ class Manager
             }
 
             foreach ($this->languages() as $languageName) {
-                if (! Arr::has($values, "{$fileName}.{$languageName}.{$key}") && ! array_key_exists("{$fileName}.{$languageName}.{$key}", $values)) {
+                if (!Arr::has($values, "{$fileName}.{$languageName}.{$key}") && !array_key_exists("{$fileName}.{$languageName}.{$key}", $values)) {
                     $missing[] = "{$fileName}.{$key}:{$languageName}";
                 }
             }

@@ -1,8 +1,8 @@
 {
-    "name": "themsaid/laravel-langman",
+    "name": "keeratita/laravel-langman",
     "description": "Manage language files with ease.",
     "keywords": ["laravel", "localization", "multilingual"],
-    "homepage": "https://github.com/themsaid/laravel-langman",
+    "homepage": "https://github.com/keeratita/laravel-langman",
     "license": "MIT",
     "authors": [
         {
@@ -25,7 +25,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Themsaid\\Langman\\": "src"
+            "Keeratita\\Langman\\": "src"
         },
         "classmap": [
             "tests"
@@ -34,7 +34,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Themsaid\\Langman\\LangmanServiceProvider"
+                "Keeratita\\Langman\\LangmanServiceProvider"
             ]
         }
     }

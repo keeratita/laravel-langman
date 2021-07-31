@@ -1,6 +1,6 @@
 <?php
 
-use Themsaid\Langman\Manager;
+use Keeratita\Langman\Manager;
 use Mockery as m;
 
 class RemoveCommandTest extends TestCase
@@ -18,14 +18,14 @@ class RemoveCommandTest extends TestCase
             ],
         ]);
 
-        $command = m::mock('\Themsaid\Langman\Commands\RemoveCommand[confirm]', [$manager]);
+        $command = m::mock('\Keeratita\Langman\Commands\RemoveCommand[confirm]', [$manager]);
         $command->shouldReceive('confirm')->once()->with('Are you sure you want to remove "user.name"?')->andReturn(true);
 
         $this->app['artisan']->add($command);
         $this->artisan('langman:remove', ['key' => 'user.name']);
 
-        $userENFile = (array) include $this->app['config']['langman.path'].'/en/user.php';
-        $userNLFile = (array) include $this->app['config']['langman.path'].'/nl/user.php';
+        $userENFile = (array) include $this->app['config']['langman.path'] . '/en/user.php';
+        $userNLFile = (array) include $this->app['config']['langman.path'] . '/nl/user.php';
 
         $this->assertArrayNotHasKey('name', $userENFile);
         $this->assertArrayNotHasKey('name', $userNLFile);
@@ -44,14 +44,14 @@ class RemoveCommandTest extends TestCase
             ],
         ]);
 
-        $command = m::mock('\Themsaid\Langman\Commands\RemoveCommand[confirm]', [$manager]);
+        $command = m::mock('\Keeratita\Langman\Commands\RemoveCommand[confirm]', [$manager]);
         $command->shouldReceive('confirm')->once()->andReturn(true);
 
         $this->app['artisan']->add($command);
         $this->artisan('langman:remove', ['key' => 'user.name.f']);
 
-        $userENFile = (array) include $this->app['config']['langman.path'].'/en/user.php';
-        $userNLFile = (array) include $this->app['config']['langman.path'].'/nl/user.php';
+        $userENFile = (array) include $this->app['config']['langman.path'] . '/en/user.php';
+        $userNLFile = (array) include $this->app['config']['langman.path'] . '/nl/user.php';
 
         $this->assertArrayHasKey('name', $userENFile);
         $this->assertArrayHasKey('name', $userNLFile);
@@ -72,14 +72,14 @@ class RemoveCommandTest extends TestCase
             ],
         ]);
 
-        $command = m::mock('\Themsaid\Langman\Commands\RemoveCommand[confirm]', [$manager]);
+        $command = m::mock('\Keeratita\Langman\Commands\RemoveCommand[confirm]', [$manager]);
         $command->shouldReceive('confirm')->once()->andReturn(true);
 
         $this->app['artisan']->add($command);
         $this->artisan('langman:remove', ['key' => 'user.name']);
 
-        $userENFile = (array) include $this->app['config']['langman.path'].'/en/user.php';
-        $userNLFile = (array) include $this->app['config']['langman.path'].'/nl/user.php';
+        $userENFile = (array) include $this->app['config']['langman.path'] . '/en/user.php';
+        $userNLFile = (array) include $this->app['config']['langman.path'] . '/nl/user.php';
 
         $this->assertArrayNotHasKey('name', $userENFile);
         $this->assertArrayNotHasKey('name', $userNLFile);
@@ -95,14 +95,14 @@ class RemoveCommandTest extends TestCase
             'vendor' => ['package' => ['en' => ['file' => "<?php\n return ['not_found' => 'file not found here'];"], 'sp' => ['file' => "<?php\n return ['not_found' => 'something'];"]]],
         ]);
 
-        $command = m::mock('\Themsaid\Langman\Commands\RemoveCommand[confirm]', [$manager]);
+        $command = m::mock('\Keeratita\Langman\Commands\RemoveCommand[confirm]', [$manager]);
         $command->shouldReceive('confirm')->once()->with('Are you sure you want to remove "package::file.not_found"?')->andReturn(true);
 
         $this->app['artisan']->add($command);
         $this->artisan('langman:remove', ['key' => 'package::file.not_found']);
 
-        $ENFile = (array) include $this->app['config']['langman.path'].'/vendor/package/en/file.php';
-        $SPFile = (array) include $this->app['config']['langman.path'].'/vendor/package/sp/file.php';
+        $ENFile = (array) include $this->app['config']['langman.path'] . '/vendor/package/en/file.php';
+        $SPFile = (array) include $this->app['config']['langman.path'] . '/vendor/package/sp/file.php';
 
         $this->assertArrayNotHasKey('name', $ENFile);
         $this->assertArrayNotHasKey('name', $SPFile);

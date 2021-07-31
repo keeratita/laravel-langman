@@ -1,7 +1,7 @@
 <?php
 
 use Mockery as m;
-use Themsaid\Langman\Manager;
+use Keeratita\Langman\Manager;
 
 class TransCommandTest extends TestCase
 {
@@ -27,7 +27,7 @@ class TransCommandTest extends TestCase
     {
         $this->createTempFiles();
         $manager = $this->app[Manager::class];
-        $command = m::mock('\Themsaid\Langman\Commands\TransCommand[confirm]', [$manager]);
+        $command = m::mock('\Keeratita\Langman\Commands\TransCommand[confirm]', [$manager]);
         $command->shouldReceive('confirm')->once()->andReturn(false);
 
         $this->app['artisan']->add($command);
@@ -41,13 +41,13 @@ class TransCommandTest extends TestCase
         ]);
 
         $manager = $this->app[Manager::class];
-        $command = m::mock('\Themsaid\Langman\Commands\TransCommand[confirm]', [$manager]);
+        $command = m::mock('\Keeratita\Langman\Commands\TransCommand[confirm]', [$manager]);
         $command->shouldReceive('confirm')->once()->andReturn(true);
 
         $this->app['artisan']->add($command);
         $this->artisan('langman:trans', ['key' => 'package::file.name']);
 
-        $this->assertFileExists($this->app['config']['langman.path'].'/vendor/package/en/file.php');
+        $this->assertFileExists($this->app['config']['langman.path'] . '/vendor/package/en/file.php');
     }
 
     public function testCommandExitsWhenFileNotFoundAndConfirmationFalse()
@@ -55,13 +55,13 @@ class TransCommandTest extends TestCase
         $this->createTempFiles(['en' => []]);
 
         $manager = $this->app[Manager::class];
-        $command = m::mock('\Themsaid\Langman\Commands\TransCommand[confirm]', [$manager]);
+        $command = m::mock('\Keeratita\Langman\Commands\TransCommand[confirm]', [$manager]);
         $command->shouldReceive('confirm')->once()->andReturn(false);
 
         $this->app['artisan']->add($command);
         $this->artisan('langman:trans', ['key' => 'users.name']);
 
-        $this->assertFileNotExists($this->app['config']['langman.path'].'/en/users.php');
+        $this->assertFileNotExists($this->app['config']['langman.path'] . '/en/users.php');
     }
 
     public function testCommandCreatesFileIfNotFoundWhenConfirmed()
@@ -69,13 +69,13 @@ class TransCommandTest extends TestCase
         $this->createTempFiles(['en' => []]);
 
         $manager = $this->app[Manager::class];
-        $command = m::mock('\Themsaid\Langman\Commands\TransCommand[confirm]', [$manager]);
+        $command = m::mock('\Keeratita\Langman\Commands\TransCommand[confirm]', [$manager]);
         $command->shouldReceive('confirm')->once()->andReturn(true);
 
         $this->app['artisan']->add($command);
         $this->artisan('langman:trans', ['key' => 'users.name']);
 
-        $this->assertFileExists($this->app['config']['langman.path'].'/en/users.php');
+        $this->assertFileExists($this->app['config']['langman.path'] . '/en/users.php');
     }
 
     public function testCommandAsksForValuePerLanguageAndWriteToFile()
@@ -86,7 +86,7 @@ class TransCommandTest extends TestCase
         ]);
 
         $manager = $this->app[Manager::class];
-        $command = m::mock('\Themsaid\Langman\Commands\TransCommand[ask]', [$manager]);
+        $command = m::mock('\Keeratita\Langman\Commands\TransCommand[ask]', [$manager]);
         $command->shouldReceive('confirm')->never();
         $command->shouldReceive('ask')->once()->with('/users\.name:en/', null)->andReturn('name');
         $command->shouldReceive('ask')->once()->with('/users\.name:nl/', null)->andReturn('naam');
@@ -94,8 +94,8 @@ class TransCommandTest extends TestCase
         $this->app['artisan']->add($command);
         $this->artisan('langman:trans', ['key' => 'users.name']);
 
-        $enFile = (array) include $this->app['config']['langman.path'].'/en/users.php';
-        $nlFile = (array) include $this->app['config']['langman.path'].'/nl/users.php';
+        $enFile = (array) include $this->app['config']['langman.path'] . '/en/users.php';
+        $nlFile = (array) include $this->app['config']['langman.path'] . '/nl/users.php';
         $this->assertEquals('name', $enFile['name']);
         $this->assertEquals('naam', $nlFile['name']);
     }
@@ -107,15 +107,15 @@ class TransCommandTest extends TestCase
         ]);
 
         $manager = $this->app[Manager::class];
-        $command = m::mock('\Themsaid\Langman\Commands\TransCommand[ask]', [$manager]);
+        $command = m::mock('\Keeratita\Langman\Commands\TransCommand[ask]', [$manager]);
         $command->shouldReceive('ask')->once()->with('/users\.name:en/', null)->andReturn('name');
         $command->shouldReceive('ask')->once()->with('/users\.name:sp/', null)->andReturn('naam');
 
         $this->app['artisan']->add($command);
         $this->artisan('langman:trans', ['key' => 'package::users.name']);
 
-        $enFile = (array) include $this->app['config']['langman.path'].'/vendor/package/en/users.php';
-        $nlFile = (array) include $this->app['config']['langman.path'].'/vendor/package/sp/users.php';
+        $enFile = (array) include $this->app['config']['langman.path'] . '/vendor/package/en/users.php';
+        $nlFile = (array) include $this->app['config']['langman.path'] . '/vendor/package/sp/users.php';
         $this->assertEquals('name', $enFile['name']);
         $this->assertEquals('naam', $nlFile['name']);
     }
@@ -128,7 +128,7 @@ class TransCommandTest extends TestCase
         ]);
 
         $manager = $this->app[Manager::class];
-        $command = m::mock('\Themsaid\Langman\Commands\TransCommand[ask]', [$manager]);
+        $command = m::mock('\Keeratita\Langman\Commands\TransCommand[ask]', [$manager]);
         $command->shouldReceive('confirm')->never();
         $command->shouldReceive('ask')->once()->with('/users\.name:en/', 'nil')->andReturn('name');
         $command->shouldReceive('ask')->once()->with('/users\.name:nl/', '')->andReturn('naam');
@@ -136,8 +136,8 @@ class TransCommandTest extends TestCase
         $this->app['artisan']->add($command);
         $this->artisan('langman:trans', ['key' => 'users.name']);
 
-        $enFile = (array) include $this->app['config']['langman.path'].'/en/users.php';
-        $nlFile = (array) include $this->app['config']['langman.path'].'/nl/users.php';
+        $enFile = (array) include $this->app['config']['langman.path'] . '/en/users.php';
+        $nlFile = (array) include $this->app['config']['langman.path'] . '/nl/users.php';
         $this->assertEquals('name', $enFile['name']);
         $this->assertEquals('naam', $nlFile['name']);
     }
@@ -150,14 +150,14 @@ class TransCommandTest extends TestCase
         ]);
 
         $manager = $this->app[Manager::class];
-        $command = m::mock('\Themsaid\Langman\Commands\TransCommand[ask]', [$manager]);
+        $command = m::mock('\Keeratita\Langman\Commands\TransCommand[ask]', [$manager]);
         $command->shouldReceive('confirm')->never();
         $command->shouldReceive('ask')->once()->with('/users\.name:en/', null)->andReturn('name');
 
         $this->app['artisan']->add($command);
         $this->artisan('langman:trans', ['key' => 'users.name', '--lang' => 'en']);
 
-        $enFile = (array) include $this->app['config']['langman.path'].'/en/users.php';
+        $enFile = (array) include $this->app['config']['langman.path'] . '/en/users.php';
         $this->assertEquals('name', $enFile['name']);
     }
 
@@ -169,7 +169,7 @@ class TransCommandTest extends TestCase
         ]);
 
         $manager = $this->app[Manager::class];
-        $command = m::mock('\Themsaid\Langman\Commands\TransCommand[ask]', [$manager]);
+        $command = m::mock('\Keeratita\Langman\Commands\TransCommand[ask]', [$manager]);
         $command->shouldReceive('confirm')->never();
         $command->shouldReceive('ask')->once()->with('/users\.name\.first:en/', null)->andReturn('name');
         $command->shouldReceive('ask')->once()->with('/users\.name\.first:nl/', null)->andReturn('naam');
@@ -177,8 +177,8 @@ class TransCommandTest extends TestCase
         $this->app['artisan']->add($command);
         $this->artisan('langman:trans', ['key' => 'users.name.first']);
 
-        $enFile = (array) include $this->app['config']['langman.path'].'/en/users.php';
-        $nlFile = (array) include $this->app['config']['langman.path'].'/nl/users.php';
+        $enFile = (array) include $this->app['config']['langman.path'] . '/en/users.php';
+        $nlFile = (array) include $this->app['config']['langman.path'] . '/nl/users.php';
         $this->assertEquals(['first' => 'name'], $enFile['name']);
         $this->assertEquals(['first' => 'naam'], $nlFile['name']);
     }
@@ -191,14 +191,14 @@ class TransCommandTest extends TestCase
         ]);
 
         $manager = $this->app[Manager::class];
-        $command = m::mock('\Themsaid\Langman\Commands\TransCommand[ask]', [$manager]);
+        $command = m::mock('\Keeratita\Langman\Commands\TransCommand[ask]', [$manager]);
         $command->shouldReceive('confirm')->never();
         $command->shouldReceive('ask')->once()->with('/users\.name\.first:en/', null)->andReturn('name');
 
         $this->app['artisan']->add($command);
         $this->artisan('langman:trans', ['key' => 'users.name.first', '--lang' => 'en']);
 
-        $enFile = (array) include $this->app['config']['langman.path'].'/en/users.php';
+        $enFile = (array) include $this->app['config']['langman.path'] . '/en/users.php';
         $this->assertEquals(['first' => 'name'], $enFile['name']);
     }
 }

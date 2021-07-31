@@ -7,7 +7,7 @@ class ManagerTest extends TestCase
 {
     public function testFilesMethod()
     {
-        $manager = $this->app[\Themsaid\Langman\Manager::class];
+        $manager = $this->app[\Keeratita\Langman\Manager::class];
 
         $this->createTempFiles([
             'en' => ['user' => '', 'category' => ''],
@@ -17,22 +17,22 @@ class ManagerTest extends TestCase
 
         $expected = [
             'user' => [
-                'en' => __DIR__.DIRECTORY_SEPARATOR.'temp'.DIRECTORY_SEPARATOR.'en'.DIRECTORY_SEPARATOR.'user.php',
-                'nl' => __DIR__.DIRECTORY_SEPARATOR.'temp'.DIRECTORY_SEPARATOR.'nl'.DIRECTORY_SEPARATOR.'user.php',
+                'en' => __DIR__ . DIRECTORY_SEPARATOR . 'temp' . DIRECTORY_SEPARATOR . 'en' . DIRECTORY_SEPARATOR . 'user.php',
+                'nl' => __DIR__ . DIRECTORY_SEPARATOR . 'temp' . DIRECTORY_SEPARATOR . 'nl' . DIRECTORY_SEPARATOR . 'user.php',
             ],
             'category' => [
-                'en' => __DIR__.DIRECTORY_SEPARATOR.'temp'.DIRECTORY_SEPARATOR.'en'.DIRECTORY_SEPARATOR.'category.php',
-                'nl' => __DIR__.DIRECTORY_SEPARATOR.'temp'.DIRECTORY_SEPARATOR.'nl'.DIRECTORY_SEPARATOR.'category.php',
+                'en' => __DIR__ . DIRECTORY_SEPARATOR . 'temp' . DIRECTORY_SEPARATOR . 'en' . DIRECTORY_SEPARATOR . 'category.php',
+                'nl' => __DIR__ . DIRECTORY_SEPARATOR . 'temp' . DIRECTORY_SEPARATOR . 'nl' . DIRECTORY_SEPARATOR . 'category.php',
             ],
-// Uncomment when starting to support vendor language files
-//            'package::product' => [
-//                'en' => __DIR__.'/temp/vendor/package/en/product.php',
-//                'sp' => __DIR__.'/temp/vendor/package/sp/product.php',
-//            ],
-//            'package::user' => [
-//                'en' => __DIR__.'/temp/vendor/package/en/user.php',
-//                'sp' => __DIR__.'/temp/vendor/package/sp/user.php',
-//            ],
+            // Uncomment when starting to support vendor language files
+            //            'package::product' => [
+            //                'en' => __DIR__.'/temp/vendor/package/en/product.php',
+            //                'sp' => __DIR__.'/temp/vendor/package/sp/product.php',
+            //            ],
+            //            'package::user' => [
+            //                'en' => __DIR__.'/temp/vendor/package/en/user.php',
+            //                'sp' => __DIR__.'/temp/vendor/package/sp/user.php',
+            //            ],
         ];
 
         $this->assertEquals($expected, $manager->files());
@@ -40,7 +40,7 @@ class ManagerTest extends TestCase
 
     public function testLanguagesMethod()
     {
-        $manager = $this->app[\Themsaid\Langman\Manager::class];
+        $manager = $this->app[\Keeratita\Langman\Manager::class];
 
         $this->createTempFiles([
             'en' => [],
@@ -53,7 +53,7 @@ class ManagerTest extends TestCase
 
     public function testCreateFileIfNotExisting()
     {
-        $manager = $this->app[\Themsaid\Langman\Manager::class];
+        $manager = $this->app[\Keeratita\Langman\Manager::class];
 
         $this->createTempFiles([
             'en' => [],
@@ -63,22 +63,22 @@ class ManagerTest extends TestCase
 
         $manager->createFile('user');
 
-        $this->assertFileExists($this->app['config']['langman.path'].'/en/user.php');
-        $this->assertFileExists($this->app['config']['langman.path'].'/sp/user.php');
-        $this->assertEquals('__UN_TOUCHED__', file_get_contents($this->app['config']['langman.path'].'/nl/user.php'));
-        $this->assertEquals([], (array) include $this->app['config']['langman.path'].'/en/user.php');
+        $this->assertFileExists($this->app['config']['langman.path'] . '/en/user.php');
+        $this->assertFileExists($this->app['config']['langman.path'] . '/sp/user.php');
+        $this->assertEquals('__UN_TOUCHED__', file_get_contents($this->app['config']['langman.path'] . '/nl/user.php'));
+        $this->assertEquals([], (array) include $this->app['config']['langman.path'] . '/en/user.php');
     }
 
     public function testWriteFile()
     {
-        $manager = $this->app[\Themsaid\Langman\Manager::class];
+        $manager = $this->app[\Keeratita\Langman\Manager::class];
 
         $this->createTempFiles([
             'en' => ['users' => ''],
             'nl' => ['users' => ''],
         ]);
 
-        $filePath = $this->app['config']['langman.path'].'/en/user.php';
+        $filePath = $this->app['config']['langman.path'] . '/en/user.php';
 
         $values = [
             'name' => ['first' => 'first', 'last' => ['last1' => '1', 'last2' => 2]],
@@ -94,13 +94,13 @@ class ManagerTest extends TestCase
 
     public function testGetFileContentReadsContent()
     {
-        $manager = $this->app[\Themsaid\Langman\Manager::class];
+        $manager = $this->app[\Keeratita\Langman\Manager::class];
 
         $this->createTempFiles([
             'en' => ['users' => "<?php return ['_content_'];"],
         ]);
 
-        $filePath = $this->app['config']['langman.path'].'/en/users.php';
+        $filePath = $this->app['config']['langman.path'] . '/en/users.php';
 
         $this->assertContains('_content_', $manager->getFileContent($filePath));
     }
@@ -110,22 +110,22 @@ class ManagerTest extends TestCase
      */
     public function testGetFileContentThrowsExceptionIfNotFound()
     {
-        $manager = $this->app[\Themsaid\Langman\Manager::class];
+        $manager = $this->app[\Keeratita\Langman\Manager::class];
 
         $this->createTempFiles();
 
-        $filePath = $this->app['config']['langman.path'].'/en/users.php';
+        $filePath = $this->app['config']['langman.path'] . '/en/users.php';
 
         $manager->getFileContent($filePath);
     }
 
     public function testGetFileContentCreatesFileIfNeeded()
     {
-        $manager = $this->app[\Themsaid\Langman\Manager::class];
+        $manager = $this->app[\Keeratita\Langman\Manager::class];
 
         $this->createTempFiles();
 
-        $filePath = $this->app['config']['langman.path'].'/en/users.php';
+        $filePath = $this->app['config']['langman.path'] . '/en/users.php';
 
         $manager->getFileContent($filePath, true);
 
@@ -134,7 +134,7 @@ class ManagerTest extends TestCase
 
     public function testRemoveTranslationLineFromAllFiles()
     {
-        $manager = $this->app[\Themsaid\Langman\Manager::class];
+        $manager = $this->app[\Keeratita\Langman\Manager::class];
 
         $this->createTempFiles([
             'en' => ['users' => "<?php return ['name'=> 'a', 'age' => 'b'];"],
@@ -143,8 +143,8 @@ class ManagerTest extends TestCase
 
         $manager->removeKey('users', 'name');
 
-        $enFile = (array) include $this->app['config']['langman.path'].'/en/users.php';
-        $nlFile = (array) include $this->app['config']['langman.path'].'/nl/users.php';
+        $enFile = (array) include $this->app['config']['langman.path'] . '/en/users.php';
+        $nlFile = (array) include $this->app['config']['langman.path'] . '/nl/users.php';
 
         $this->assertArrayNotHasKey('name', $enFile);
         $this->assertArrayHasKey('age', $enFile);
@@ -154,7 +154,7 @@ class ManagerTest extends TestCase
 
     public function testRemoveNestedTranslationLineFromAllFiles()
     {
-        $manager = $this->app[\Themsaid\Langman\Manager::class];
+        $manager = $this->app[\Keeratita\Langman\Manager::class];
 
         $this->createTempFiles([
             'en' => ['users' => "<?php return ['name'=> ['f' => '1', 's' => 2], 'age' => 'b'];"],
@@ -163,8 +163,8 @@ class ManagerTest extends TestCase
 
         $manager->removeKey('users', 'name.f');
 
-        $enFile = (array) include $this->app['config']['langman.path'].'/en/users.php';
-        $nlFile = (array) include $this->app['config']['langman.path'].'/nl/users.php';
+        $enFile = (array) include $this->app['config']['langman.path'] . '/en/users.php';
+        $nlFile = (array) include $this->app['config']['langman.path'] . '/nl/users.php';
 
         $this->assertArrayHasKey('name', $enFile);
         $this->assertArrayNotHasKey('f', $enFile['name']);
@@ -176,7 +176,7 @@ class ManagerTest extends TestCase
 
     public function testFillTranslationLinesThatDoesNotExistYet()
     {
-        $manager = $this->app[\Themsaid\Langman\Manager::class];
+        $manager = $this->app[\Keeratita\Langman\Manager::class];
 
         $this->createTempFiles([
             'en' => ['users' => '<?php return [];'],
@@ -185,8 +185,8 @@ class ManagerTest extends TestCase
 
         $manager->fillKeys('users', ['name' => ['en' => 'name', 'nl' => 'naam']]);
 
-        $enFile = (array) include $this->app['config']['langman.path'].'/en/users.php';
-        $nlFile = (array) include $this->app['config']['langman.path'].'/nl/users.php';
+        $enFile = (array) include $this->app['config']['langman.path'] . '/en/users.php';
+        $nlFile = (array) include $this->app['config']['langman.path'] . '/nl/users.php';
 
         $this->assertEquals('name', $enFile['name']);
         $this->assertEquals('naam', $nlFile['name']);
@@ -194,7 +194,7 @@ class ManagerTest extends TestCase
 
     public function testUpdatesTranslationLineThatExists()
     {
-        $manager = $this->app[\Themsaid\Langman\Manager::class];
+        $manager = $this->app[\Keeratita\Langman\Manager::class];
 
         $this->createTempFiles([
             'en' => ['users' => "<?php return ['name' => 'nil'];"],
@@ -202,14 +202,14 @@ class ManagerTest extends TestCase
 
         $manager->fillKeys('users', ['name' => ['en' => 'name']]);
 
-        $enFile = (array) include $this->app['config']['langman.path'].'/en/users.php';
+        $enFile = (array) include $this->app['config']['langman.path'] . '/en/users.php';
 
         $this->assertEquals('name', $enFile['name']);
     }
 
     public function testFillNestedTranslationLines()
     {
-        $manager = $this->app[\Themsaid\Langman\Manager::class];
+        $manager = $this->app[\Keeratita\Langman\Manager::class];
 
         $this->createTempFiles([
             'en' => ['users' => '<?php return ["class" => "class"];'],
@@ -218,8 +218,8 @@ class ManagerTest extends TestCase
 
         $manager->fillKeys('users', ['name.first' => ['en' => 'name', 'nl' => 'naam']]);
 
-        $enFile = (array) include $this->app['config']['langman.path'].'/en/users.php';
-        $nlFile = (array) include $this->app['config']['langman.path'].'/nl/users.php';
+        $enFile = (array) include $this->app['config']['langman.path'] . '/en/users.php';
+        $nlFile = (array) include $this->app['config']['langman.path'] . '/nl/users.php';
 
         $this->assertEquals('name', $enFile['name']['first']);
         $this->assertEquals('class', $enFile['class']);
@@ -228,21 +228,21 @@ class ManagerTest extends TestCase
 
     public function testFindTranslationsInProjectFiles()
     {
-        $manager = $this->app[\Themsaid\Langman\Manager::class];
+        $manager = $this->app[\Keeratita\Langman\Manager::class];
 
-        array_map('unlink', glob(__DIR__.'/views_temp/users/index.blade.php'));
-        array_map('rmdir', glob(__DIR__.'/views_temp/users'));
-        array_map('unlink', glob(__DIR__.'/views_temp/users.blade.php'));
+        array_map('unlink', glob(__DIR__ . '/views_temp/users/index.blade.php'));
+        array_map('rmdir', glob(__DIR__ . '/views_temp/users'));
+        array_map('unlink', glob(__DIR__ . '/views_temp/users.blade.php'));
 
-        file_put_contents(__DIR__.'/views_temp/users.blade.php', '{{ trans(\'users.name\') }} {{ trans(\'users.age\') }}');
-        mkdir(__DIR__.'/views_temp/users');
-        file_put_contents(__DIR__.'/views_temp/users/index.blade.php', "{{ trans('users.city') }}");
+        file_put_contents(__DIR__ . '/views_temp/users.blade.php', '{{ trans(\'users.name\') }} {{ trans(\'users.age\') }}');
+        mkdir(__DIR__ . '/views_temp/users');
+        file_put_contents(__DIR__ . '/views_temp/users/index.blade.php', "{{ trans('users.city') }}");
 
         $results = $manager->collectFromFiles();
 
-        array_map('unlink', glob(__DIR__.'/views_temp/users/index.blade.php'));
-        array_map('rmdir', glob(__DIR__.'/views_temp/users'));
-        array_map('unlink', glob(__DIR__.'/views_temp/users.blade.php'));
+        array_map('unlink', glob(__DIR__ . '/views_temp/users/index.blade.php'));
+        array_map('rmdir', glob(__DIR__ . '/views_temp/users'));
+        array_map('unlink', glob(__DIR__ . '/views_temp/users.blade.php'));
 
         $this->assertArrayHasKey('users', $results);
         $this->assertContains('name', $results['users']);
@@ -252,7 +252,7 @@ class ManagerTest extends TestCase
 
     public function testGetKeysExistingInALanguageButNotTheOther()
     {
-        $manager = m::mock('Themsaid\Langman\Manager[languages]', [new Filesystem(), '', []]);
+        $manager = m::mock('Keeratita\Langman\Manager[languages]', [new Filesystem(), '', []]);
 
         $manager->shouldReceive('languages')->andReturn(['en', 'nl']);
 

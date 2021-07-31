@@ -1,10 +1,10 @@
 <?php
 
-namespace Themsaid\Langman\Commands;
+namespace Keeratita\Langman\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
-use Themsaid\Langman\Manager;
+use Keeratita\Langman\Manager;
 
 class MissingCommand extends Command
 {
@@ -25,7 +25,7 @@ class MissingCommand extends Command
     /**
      * The Languages manager instance.
      *
-     * @var \Themsaid\LangMan\Manager
+     * @var \Keeratita\Langman\Manager
      */
     private $manager;
 
@@ -39,7 +39,7 @@ class MissingCommand extends Command
     /**
      * ListCommand constructor.
      *
-     * @param \Themsaid\LangMan\Manager $manager
+     * @param \Keeratita\Langman\Manager $manager
      * @return void
      */
     public function __construct(Manager $manager)
@@ -96,7 +96,8 @@ class MissingCommand extends Command
 
         foreach ($missing as $missingKey) {
             $values[$missingKey] = $this->ask(
-                "<fg=yellow>{$missingKey}</> translation", $this->getDefaultValue($missingKey)
+                "<fg=yellow>{$missingKey}</> translation",
+                $this->getDefaultValue($missingKey)
             );
         }
 
@@ -111,7 +112,7 @@ class MissingCommand extends Command
      */
     private function getDefaultValue($missingKey)
     {
-        if (! $this->option('default')) {
+        if (!$this->option('default')) {
             return null;
         }
 
@@ -122,7 +123,7 @@ class MissingCommand extends Command
 
             $filePath = $this->manager->files()[$file][config('app.locale')];
 
-            return config('app.locale').":{$this->manager->getFileContent($filePath)[$key]}";
+            return config('app.locale') . ":{$this->manager->getFileContent($filePath)[$key]}";
         } catch (\Exception $e) {
             return null;
         }

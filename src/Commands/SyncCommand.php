@@ -1,10 +1,10 @@
 <?php
 
-namespace Themsaid\Langman\Commands;
+namespace Keeratita\Langman\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
-use Themsaid\Langman\Manager;
+use Keeratita\Langman\Manager;
 
 class SyncCommand extends Command
 {
@@ -25,14 +25,14 @@ class SyncCommand extends Command
     /**
      * The Languages manager instance.
      *
-     * @var \Themsaid\LangMan\Manager
+     * @var \Keeratita\Langman\Manager
      */
     private $manager;
 
     /**
      * Command constructor.
      *
-     * @param \Themsaid\LangMan\Manager $manager
+     * @param \Keeratita\Langman\Manager $manager
      * @return void
      */
     public function __construct(Manager $manager)

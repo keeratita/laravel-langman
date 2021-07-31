@@ -1,10 +1,10 @@
 <?php
 
-namespace Themsaid\Langman\Commands;
+namespace Keeratita\Langman\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
-use Themsaid\Langman\Manager;
+use Keeratita\Langman\Manager;
 
 class TransCommand extends Command
 {
@@ -53,7 +53,7 @@ class TransCommand extends Command
     /**
      * The Languages manager instance.
      *
-     * @var \Themsaid\LangMan\Manager
+     * @var \Keeratita\Langman\Manager
      */
     private $manager;
 
@@ -67,7 +67,7 @@ class TransCommand extends Command
     /**
      * ListCommand constructor.
      *
-     * @param \Themsaid\LangMan\Manager $manager
+     * @param \Keeratita\Langman\Manager $manager
      * @return void
      */
     public function __construct(Manager $manager)
@@ -84,7 +84,7 @@ class TransCommand extends Command
      */
     public function handle()
     {
-        if (! $this->parseKey()) {
+        if (!$this->parseKey()) {
             return;
         }
 
@@ -110,7 +110,7 @@ class TransCommand extends Command
             $this->fileName = $matches[1];
             $this->key = $matches[2];
         } catch (\ErrorException $e) {
-            if (! $this->key) {
+            if (!$this->key) {
                 $this->error('Could not recognize the key you want to translate.');
 
                 return false;
@@ -145,7 +145,7 @@ class TransCommand extends Command
             return $this->manager->files()[$this->fileName];
         } catch (\ErrorException $e) {
             if ($this->confirm(sprintf('Language file %s.php not found, would you like to create it?', $this->fileName))) {
-                $this->manager->createFile(str_replace($this->packageName.'::', '', $this->fileName));
+                $this->manager->createFile(str_replace($this->packageName . '::', '', $this->fileName));
             }
 
             return [];
@@ -162,7 +162,7 @@ class TransCommand extends Command
         $languages = $this->manager->languages();
 
         if ($this->languageKey) {
-            if (! in_array($this->languageKey, $languages)) {
+            if (!in_array($this->languageKey, $languages)) {
                 $this->error(sprintf('Language (%s) could not be found!', $this->languageKey));
 
                 return;
@@ -175,7 +175,7 @@ class TransCommand extends Command
         $values = $this->collectValues($languages);
 
         $this->manager->fillKeys(
-            str_replace($this->packageName.'::', '', $this->fileName),
+            str_replace($this->packageName . '::', '', $this->fileName),
             [$this->key => $values]
         );
 

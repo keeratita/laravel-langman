@@ -1,10 +1,10 @@
 <?php
 
-namespace Themsaid\Langman\Commands;
+namespace Keeratita\Langman\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
-use Themsaid\Langman\Manager;
+use Keeratita\Langman\Manager;
 
 class RemoveCommand extends Command
 {
@@ -25,7 +25,7 @@ class RemoveCommand extends Command
     /**
      * The Languages manager instance.
      *
-     * @var \Themsaid\LangMan\Manager
+     * @var \Keeratita\Langman\Manager
      */
     private $manager;
 
@@ -39,7 +39,7 @@ class RemoveCommand extends Command
     /**
      * ListCommand constructor.
      *
-     * @param \Themsaid\LangMan\Manager $manager
+     * @param \Keeratita\Langman\Manager $manager
      * @return void
      */
     public function __construct(Manager $manager)

@@ -1,10 +1,10 @@
 <?php
 
-namespace Themsaid\Langman\Commands;
+namespace Keeratita\Langman\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
-use Themsaid\Langman\Manager;
+use Keeratita\Langman\Manager;
 use Illuminate\Support\Str;
 
 class FindCommand extends Command
@@ -26,7 +26,7 @@ class FindCommand extends Command
     /**
      * The Languages manager instance.
      *
-     * @var \Themsaid\LangMan\Manager
+     * @var \Keeratita\Langman\Manager
      */
     private $manager;
 
@@ -40,7 +40,7 @@ class FindCommand extends Command
     /**
      * ListCommand constructor.
      *
-     * @param \Themsaid\LangMan\Manager $manager
+     * @param \Keeratita\Langman\Manager $manager
      * @return void
      */
     public function __construct(Manager $manager)
@@ -93,8 +93,8 @@ class FindCommand extends Command
                 $lines = $filesContent[$fileName][$languageKey] = Arr::dot($this->manager->getFileContent($filePath));
 
                 foreach ($lines as $key => $line) {
-                    if (! is_array($line) && stripos($line, $this->argument('keyword')) !== false) {
-                        $output[$fileName.'.'.$key][$languageKey] = "<bg=yellow;fg=black>{$line}</>";
+                    if (!is_array($line) && stripos($line, $this->argument('keyword')) !== false) {
+                        $output[$fileName . '.' . $key][$languageKey] = "<bg=yellow;fg=black>{$line}</>";
                     }
                 }
             }
@@ -111,8 +111,8 @@ class FindCommand extends Command
             foreach ($allLanguages as $languageKey) {
                 $original[$languageKey] =
                     isset($values[$languageKey])
-                        ? $values[$languageKey]
-                        : (isset($filesContent[$fileName][$languageKey][$key]) ? $filesContent[$fileName][$languageKey][$key] : '');
+                    ? $values[$languageKey]
+                    : (isset($filesContent[$fileName][$languageKey][$key]) ? $filesContent[$fileName][$languageKey][$key] : '');
             }
 
             // Sort the language values based on language name

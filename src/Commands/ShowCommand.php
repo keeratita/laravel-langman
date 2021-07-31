@@ -1,12 +1,12 @@
 <?php
 
-namespace Themsaid\Langman\Commands;
+namespace Keeratita\Langman\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
-use Themsaid\Langman\Manager;
+use Keeratita\Langman\Manager;
 
 class ShowCommand extends Command
 {
@@ -27,7 +27,7 @@ class ShowCommand extends Command
     /**
      * The Languages manager instance.
      *
-     * @var \Themsaid\LangMan\Manager
+     * @var \Keeratita\Langman\Manager
      */
     private $manager;
 
@@ -62,7 +62,7 @@ class ShowCommand extends Command
     /**
      * ListCommand constructor.
      *
-     * @param \Themsaid\LangMan\Manager $manager
+     * @param \Keeratita\Langman\Manager $manager
      */
     public function __construct(Manager $manager)
     {
@@ -109,7 +109,7 @@ class ShowCommand extends Command
 
         foreach ($this->files as $languageKey => $file) {
             foreach ($filesContent[$languageKey] = Arr::dot($this->manager->getFileContent($file)) as $key => $value) {
-                if (! $this->shouldShowKey($key)) {
+                if (!$this->shouldShowKey($key)) {
                     continue;
                 }
 
@@ -195,11 +195,11 @@ class ShowCommand extends Command
                 return true;
             }
 
-            if (! $this->option('close') && $key != $this->key) {
+            if (!$this->option('close') && $key != $this->key) {
                 return false;
             }
 
-            if ($this->option('close') && ! Str::contains($key, $this->key)) {
+            if ($this->option('close') && !Str::contains($key, $this->key)) {
                 return false;
             }
         }
@@ -216,14 +216,14 @@ class ShowCommand extends Command
     {
         $allLanguages = $this->manager->languages();
 
-        if (! $this->option('lang')) {
+        if (!$this->option('lang')) {
             return $allLanguages;
         }
 
         $userLanguages = explode(',', (string) $this->option('lang'));
 
         if ($missingLanguages = array_diff($userLanguages, $allLanguages)) {
-            throw new InvalidArgumentException('Unknown Language(s) ['.implode(',', $missingLanguages).'].');
+            throw new InvalidArgumentException('Unknown Language(s) [' . implode(',', $missingLanguages) . '].');
         }
 
         return $userLanguages;

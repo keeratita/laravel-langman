@@ -6,27 +6,27 @@ abstract class TestCase extends Orchestra\Testbench\TestCase
 
     protected function getPackageProviders($app)
     {
-        return [\Themsaid\Langman\LangmanServiceProvider::class];
+        return [\Keeratita\Langman\LangmanServiceProvider::class];
     }
 
     protected function getEnvironmentSetUp($app)
     {
-        $app['config']->set('langman.path', __DIR__.'/temp');
-        $app['config']->set('view.paths', [__DIR__.'/views_temp']);
+        $app['config']->set('langman.path', __DIR__ . '/temp');
+        $app['config']->set('view.paths', [__DIR__ . '/views_temp']);
     }
 
     public function setUp()
     {
         parent::setUp();
 
-        exec('rm -rf '.__DIR__.'/temp/*');
+        exec('rm -rf ' . __DIR__ . '/temp/*');
     }
 
     public function tearDown()
     {
         parent::tearDown();
 
-        exec('rm -rf '.__DIR__.'/temp/*');
+        exec('rm -rf ' . __DIR__ . '/temp/*');
 
         $this->consoleOutput = '';
     }
@@ -34,20 +34,20 @@ abstract class TestCase extends Orchestra\Testbench\TestCase
     public function createTempFiles($files = [])
     {
         foreach ($files as $dir => $dirFiles) {
-            mkdir(__DIR__.'/temp/'.$dir);
+            mkdir(__DIR__ . '/temp/' . $dir);
 
             foreach ($dirFiles as $file => $content) {
                 if (is_array($content)) {
-                    mkdir(__DIR__.'/temp/'.$dir.'/'.$file);
+                    mkdir(__DIR__ . '/temp/' . $dir . '/' . $file);
 
                     foreach ($content as $subDir => $subContent) {
-                        mkdir(__DIR__.'/temp/vendor/'.$file.'/'.$subDir);
+                        mkdir(__DIR__ . '/temp/vendor/' . $file . '/' . $subDir);
                         foreach ($subContent as $subFile => $subsubContent) {
-                            file_put_contents(__DIR__.'/temp/'.$dir.'/'.$file.'/'.$subDir.'/'.$subFile.'.php', $subsubContent);
+                            file_put_contents(__DIR__ . '/temp/' . $dir . '/' . $file . '/' . $subDir . '/' . $subFile . '.php', $subsubContent);
                         }
                     }
                 } else {
-                    file_put_contents(__DIR__.'/temp/'.$dir.'/'.$file.'.php', $content);
+                    file_put_contents(__DIR__ . '/temp/' . $dir . '/' . $file . '.php', $content);
                 }
             }
         }

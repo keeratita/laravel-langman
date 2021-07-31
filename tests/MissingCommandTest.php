@@ -1,6 +1,6 @@
 <?php
 
-use Themsaid\Langman\Manager;
+use Keeratita\Langman\Manager;
 use Mockery as m;
 
 class MissingCommandTest extends TestCase
@@ -21,7 +21,7 @@ class MissingCommandTest extends TestCase
             ],
         ]);
 
-        $command = m::mock('\Themsaid\Langman\Commands\MissingCommand[ask]', [$manager]);
+        $command = m::mock('\Keeratita\Langman\Commands\MissingCommand[ask]', [$manager]);
         $command->shouldReceive('ask')->once()->with('/user\.age:nl/', null)->andReturn('fill_age');
         $command->shouldReceive('ask')->once()->with('/product\.name:en/', null)->andReturn('fill_name');
         $command->shouldReceive('ask')->once()->with('/product\.color:nl/', null)->andReturn('fill_color');
@@ -33,11 +33,11 @@ class MissingCommandTest extends TestCase
         $this->app['artisan']->add($command);
         $this->artisan('langman:missing');
 
-        $missingENFile = (array) include $this->app['config']['langman.path'].'/en/missing.php';
-        $missingNLFile = (array) include $this->app['config']['langman.path'].'/nl/missing.php';
-        $userNlFile = (array) include $this->app['config']['langman.path'].'/nl/user.php';
-        $productENFile = (array) include $this->app['config']['langman.path'].'/en/product.php';
-        $productNlFile = (array) include $this->app['config']['langman.path'].'/nl/product.php';
+        $missingENFile = (array) include $this->app['config']['langman.path'] . '/en/missing.php';
+        $missingNLFile = (array) include $this->app['config']['langman.path'] . '/nl/missing.php';
+        $userNlFile = (array) include $this->app['config']['langman.path'] . '/nl/user.php';
+        $productENFile = (array) include $this->app['config']['langman.path'] . '/en/product.php';
+        $productNlFile = (array) include $this->app['config']['langman.path'] . '/nl/product.php';
 
         $this->assertEquals('fill_age', $userNlFile['age']);
         $this->assertEquals('fill_name', $productENFile['name']);
@@ -63,7 +63,7 @@ class MissingCommandTest extends TestCase
             ],
         ]);
 
-        $command = m::mock('\Themsaid\Langman\Commands\MissingCommand[ask]', [$manager]);
+        $command = m::mock('\Keeratita\Langman\Commands\MissingCommand[ask]', [$manager]);
         $command->shouldReceive('ask')->once()->with('/<fg=yellow>user\.age:nl<\/> translation/', '/en:Age/');
 
         $this->app['artisan']->add($command);
@@ -86,7 +86,7 @@ class MissingCommandTest extends TestCase
             ],
         ]);
 
-        $command = m::mock('\Themsaid\Langman\Commands\MissingCommand[ask]', [$manager]);
+        $command = m::mock('\Keeratita\Langman\Commands\MissingCommand[ask]', [$manager]);
         $command->shouldReceive('ask')->once()->with('/<fg=yellow>user\.age:nl<\/> translation/', null);
 
         $this->app['artisan']->add($command);

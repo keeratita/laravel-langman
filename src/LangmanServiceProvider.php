@@ -1,6 +1,6 @@
 <?php
 
-namespace Themsaid\Langman;
+namespace Keeratita\Langman;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Filesystem\Filesystem;
@@ -13,13 +13,13 @@ class LangmanServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../config/langman.php' => config_path('langman.php'),
+            __DIR__ . '/../config/langman.php' => config_path('langman.php'),
         ], 'config');
     }
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/langman.php', 'langman');
+        $this->mergeConfigFrom(__DIR__ . '/../config/langman.php', 'langman');
 
         $this->app->bind(Manager::class, function () {
             return new Manager(
@@ -30,13 +30,13 @@ class LangmanServiceProvider extends ServiceProvider
         });
 
         $this->commands([
-            \Themsaid\Langman\Commands\MissingCommand::class,
-            \Themsaid\Langman\Commands\RemoveCommand::class,
-            \Themsaid\Langman\Commands\TransCommand::class,
-            \Themsaid\Langman\Commands\ShowCommand::class,
-            \Themsaid\Langman\Commands\FindCommand::class,
-            \Themsaid\Langman\Commands\SyncCommand::class,
-            \Themsaid\Langman\Commands\RenameCommand::class,
+            \Keeratita\Langman\Commands\MissingCommand::class,
+            \Keeratita\Langman\Commands\RemoveCommand::class,
+            \Keeratita\Langman\Commands\TransCommand::class,
+            \Keeratita\Langman\Commands\ShowCommand::class,
+            \Keeratita\Langman\Commands\FindCommand::class,
+            \Keeratita\Langman\Commands\SyncCommand::class,
+            \Keeratita\Langman\Commands\RenameCommand::class,
         ]);
     }
 }
