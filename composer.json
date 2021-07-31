@@ -1,5 +1,5 @@
 {
-    "name": "keeratita/laravel-langman",
+    "name": "themsaid/laravel-langman",
     "description": "Manage language files with ease.",
     "keywords": ["laravel", "localization", "multilingual"],
     "homepage": "https://github.com/keeratita/laravel-langman",
@@ -25,7 +25,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Keeratita\\Langman\\": "src"
+            "Themsaid\\Langman\\": "src"
         },
         "classmap": [
             "tests"
@@ -34,7 +34,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Keeratita\\Langman\\LangmanServiceProvider"
+                "Themsaid\\Langman\\LangmanServiceProvider"
             ]
         }
     }

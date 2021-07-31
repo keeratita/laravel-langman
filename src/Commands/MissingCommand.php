@@ -1,10 +1,10 @@
 <?php
 
-namespace Keeratita\Langman\Commands;
+namespace Themsaid\Langman\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
-use Keeratita\Langman\Manager;
+use Themsaid\Langman\Manager;
 
 class MissingCommand extends Command
 {
@@ -25,7 +25,7 @@ class MissingCommand extends Command
     /**
      * The Languages manager instance.
      *
-     * @var \Keeratita\Langman\Manager
+     * @var \Themsaid\Langman\Manager
      */
     private $manager;
 
@@ -39,7 +39,7 @@ class MissingCommand extends Command
     /**
      * ListCommand constructor.
      *
-     * @param \Keeratita\Langman\Manager $manager
+     * @param \Themsaid\Langman\Manager $manager
      * @return void
      */
     public function __construct(Manager $manager)
